@@ -1,0 +1,19 @@
+name: rapid-quiz-web
+region: fra
+domains:
+  - domain: rapidquiz.app
+    type: PRIMARY
+static_sites:
+  - name: web
+    github:
+      repo: busracankit/RapidQuizFrontend
+      branch: main
+      deploy_on_push: true
+    environment_slug: node-js
+    build_command: npm ci && npm run build
+    output_dir: dist
+    catchall_document: index.html   # Vue Router history mode için
+    envs:
+      - key: VITE_API_BASE_URL
+        scope: BUILD_TIME
+        value: https://api.rapidquiz.app

@@ -1,0 +1,21 @@
+node_modules/
+dist/
+coverage/
+*.local
+.env
+.env.*
+!.env.example
+
+# Test çıktıları
+test-results/
+playwright-report/
+blob-report/
+
+# IDE / OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+
+# PyCharm'ın oluşturduğu Python ortamı (frontend'de kullanılmıyor)
+.venv/
