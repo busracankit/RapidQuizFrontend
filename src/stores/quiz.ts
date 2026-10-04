@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { api, ApiError } from '@/api'
@@ -72,6 +72,8 @@ export const useQuizStore = defineStore('quiz', () => {
   /** Sorunun sayacının istemci saatine göre başlayacağı an (performance.now()). */
   const questionStartsAt = ref(0)
   const nextQuestion = ref<Question | null>(null)
+  /** Sonraki sorunun sayacının başlayacağı an; cevap yanıtı alındığında bir kez hesaplanır. */
+  const nextQuestionStartsAt = ref(0)
   const lastAnswer = ref<AnswerResult | null>(null)
   const answers = ref<AnswerSummary[]>([])
   const score = ref(0)
@@ -96,9 +98,10 @@ export const useQuizStore = defineStore('quiz', () => {
     result.value = null
   }
 
-  function setQuestion(q: Question | null) {
+  /** `starts_in_ms` yanıtın alındığı ana göredir; bu yüzden başlangıç anı yalnızca alındığında hesaplanır. */
+  function setQuestion(q: Question | null, startsAt?: number) {
     question.value = q
-    questionStartsAt.value = q ? performance.now() + q.starts_in_ms : 0
+    questionStartsAt.value = q ? (startsAt ?? performance.now() + q.starts_in_ms) : 0
   }
 
   /** Kalan süre (istemci saatiyle), sayaç henüz başlamadıysa tam süre. */
@@ -177,6 +180,9 @@ export const useQuizStore = defineStore('quiz', () => {
         },
       ]
       nextQuestion.value = res.next_question
+      nextQuestionStartsAt.value = res.next_question
+        ? performance.now() + res.next_question.starts_in_ms
+        : 0
       phase.value = 'feedback'
       return res
     } catch (e) {
@@ -189,7 +195,8 @@ export const useQuizStore = defineStore('quiz', () => {
   function advance() {
     lastAnswer.value = null
     if (nextQuestion.value) {
-      setQuestion(nextQuestion.value)
+      // Geri bildirim süresi zaten beklendi; sayaç sunucudaki served_at ile aynı anda başlar.
+      setQuestion(nextQuestion.value, nextQuestionStartsAt.value)
       nextQuestion.value = null
       phase.value = 'playing'
     } else {
@@ -200,7 +207,7 @@ export const useQuizStore = defineStore('quiz', () => {
 
   /** Bir sonraki sorunun sayacının başlayacağı an (geri bildirim süresi). */
   function nextStartsAt(): number {
-    return nextQuestion.value ? performance.now() + nextQuestion.value.starts_in_ms : performance.now()
+    return nextQuestion.value ? nextQuestionStartsAt.value : performance.now()
   }
 
   async function loadResult(): Promise<Result> {
@@ -258,3 +265,5 @@ export const useQuizStore = defineStore('quiz', () => {
     saveScore,
   }
 })
+
+if (import.meta.hot) import.meta.hot.accept(acceptHMRUpdate(useQuizStore, import.meta.hot))

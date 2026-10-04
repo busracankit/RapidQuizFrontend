@@ -29,7 +29,7 @@ defineProps<{ category: Category }>()
       <span class="block font-display text-lg font-bold leading-tight">{{ category.name }}</span>
       <span class="mt-0.5 block text-sm text-ink-soft">{{ category.description }}</span>
     </span>
-    <span class="hidden rounded-full bg-ink/5 px-3 py-1 text-sm font-bold text-ink sm:inline group-hover:bg-(--cat)/15">
+    <span class="hidden shrink-0 rounded-full bg-ink/5 px-3 py-1 text-sm font-bold text-ink lg:inline group-hover:bg-(--cat)/15">
       {{ tr.home.play }} →
     </span>
   </RouterLink>

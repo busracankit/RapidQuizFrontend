@@ -69,6 +69,29 @@ describe('quiz store', () => {
     expect(quiz.phase).toBe('playing')
   })
 
+  it('advance() does not wait the feedback delay a second time', async () => {
+    vi.useFakeTimers({ toFake: ['performance'] })
+    try {
+      mocked.startSession.mockResolvedValue(makeStart())
+      mocked.answer.mockResolvedValue(makeAnswer()) // next_question.starts_in_ms = 800
+      const quiz = useQuizStore()
+      await quiz.start('yazilim')
+      quiz.phase = 'playing'
+
+      await quiz.submit(2)
+      const startsAt = quiz.nextStartsAt()
+      vi.advanceTimersByTime(800) // istemci geri bildirimi gösterdi
+      quiz.advance()
+
+      expect(quiz.questionStartsAt).toBe(startsAt)
+      expect(quiz.remainingFor(quiz.question!)).toBe(5000)
+      vi.advanceTimersByTime(1000)
+      expect(quiz.remainingFor(quiz.question!)).toBe(4000)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
   it('submit(null) sends a timeout', async () => {
     mocked.startSession.mockResolvedValue(makeStart())
     mocked.answer.mockResolvedValue(makeAnswer({ is_correct: false, timed_out: true, points: 0 }))

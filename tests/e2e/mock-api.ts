@@ -2,8 +2,9 @@ import type { Page, Route } from '@playwright/test'
 
 /**
  * Bellek içi sahte backend: v1 API sözleşmesini (CLAUDE.md) taklit eder.
- * Her sorunun doğru şıkkı metni "Doğru" ile başlayan şıktır. Bekleme süreleri testler hızlı
- * olsun diye kısaltılmıştır (ilk soru 2000 ms, geri bildirim 300 ms).
+ * Her sorunun doğru şıkkı metni "Doğru" ile başlayan şıktır. İlk sorudaki 3-2-1 beklemesi testler
+ * hızlı olsun diye 2000 ms'ye kısaltılmıştır; geri bildirim süresi backend'deki gibi 800 ms'dir
+ * (daha kısa olursa "Süre doldu!" gibi geçici metinler Playwright'ın yoklama aralığında kaçabilir).
  */
 export const API = 'http://api.test/api/v1'
 
@@ -39,7 +40,7 @@ interface MockSession {
 const TOTAL = 20
 const LIMIT = 5000
 const FIRST_WAIT = 2000
-const FEEDBACK = 300
+const FEEDBACK = 800
 
 function correctKey(index: number) {
   return ((index * 3) % 4) + 1

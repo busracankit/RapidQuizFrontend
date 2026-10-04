@@ -20,7 +20,7 @@ destekleyince yükseltilecek.
 
 ```bash
 npm install
-cp .env.example .env        # VITE_API_BASE_URL=http://localhost:8000
+cp .env.example .env        # yerelde VITE_API_BASE_URL boş → /api Vite proxy ile localhost:8000'e gider
 npm run dev                 # http://localhost:5173 (backend: docker compose up -d)
 npm run build               # vue-tsc + vite build → dist/
 npm run lint                # ESLint
@@ -52,6 +52,12 @@ tests/unit/         Vitest; tests/e2e/ Playwright + mock-api.ts (sahte backend)
 - **Zamanlama:** Soru nesnesindeki `starts_in_ms` kadar beklenir (3-2-1 / 0,8 sn geri bildirim), sonra
   `remaining_ms`'den geri sayılır. Store her soru için `questionStartsAt` (performance.now) tutar; yenilemede
   kalan süre `remainingFor()` ile hesaplanır. Süre dolunca `choice_id: null` gönderilir. Puanı sunucu hesaplar.
+- **Önemli:** `starts_in_ms` yanıtın alındığı ana göredir; başlangıç anı (`questionStartsAt`) yalnızca yanıt
+  alındığında bir kez hesaplanır, sonradan yeniden hesaplanmaz (aksi halde geri bildirim süresi iki kez beklenir
+  ve oyuncu her soruda ~0,8 sn kaybeder). Hazır ekranı soru ekranına 400 ms erken geçer ve soru ekranının kodunu
+  3-2-1 sırasında önceden yükler.
+- **Geliştirmede API:** `VITE_API_BASE_URL` boş → istekler `/api` üzerinden Vite proxy'siyle
+  `VITE_API_PROXY_TARGET`'a (varsayılan http://localhost:8000) gider; CORS gerekmez. Production'da tam adres.
 - **Şık kimlikleri** 1–4'tür (oturuma özel). Doğru şık yalnızca cevaptan sonra `correct_choice_id` ile gelir.
 - **Hata yönetimi:** API hataları `ApiError(code, message, status)`; `session_not_found` /
   `invalid_session_token` / `session_expired` → oturum silinir, "ana sayfaya dön". `question_mismatch` ve ağ
@@ -67,4 +73,5 @@ tests/unit/         Vitest; tests/e2e/ Playwright + mock-api.ts (sahte backend)
 - [x] Kurulum, tema token'ları, OpenAPI tipleri + axios istemcisi
 - [x] Ana sayfa, hazır ekranı, soru ekranı, sonuç + isim formu, skor tablosu (podyum)
 - [x] Yenileme/devam, animasyonlar, erişilebilirlik
-- [x] Vitest (22) ve Playwright (mobil + masaüstü) testleri
+- [x] Vitest (23) ve Playwright (mobil + masaüstü) testleri
+- [x] Gerçek backend ile uçtan uca doğrulandı (4 Ekim 2026)

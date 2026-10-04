@@ -178,7 +178,7 @@ const feedbackText = computed(() => {
       />
     </div>
 
-    <div class="card mt-5 p-5 sm:p-6" :class="{ 'opacity-0': !visible }">
+    <div class="card mt-5 p-5 sm:p-6" :class="{ invisible: !visible }">
       <h1 class="text-center font-sans text-xl leading-snug font-extrabold sm:text-2xl" data-testid="question-text">
         {{ q.text }}
       </h1>

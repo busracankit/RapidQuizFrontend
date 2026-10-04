@@ -17,14 +17,17 @@ let timer: ReturnType<typeof setInterval> | undefined
 
 const accent = computed(() => quiz.category?.color ?? 'var(--color-primary)')
 
+/** Soru ekranına sayaç bitmeden biraz önce geçilir; ekran hazır olup sayacı tam zamanında başlatır. */
+const HANDOFF_MS = 400
+
 function tick() {
   const left = quiz.questionStartsAt - performance.now()
-  if (left <= 0) {
+  if (left <= HANDOFF_MS) {
     clearInterval(timer)
     router.replace({ name: 'play' })
     return
   }
-  countdown.value = Math.ceil(left / 1000)
+  countdown.value = Math.max(1, Math.ceil(left / 1000))
 }
 
 async function begin() {
@@ -39,7 +42,11 @@ async function begin() {
   }
 }
 
-onMounted(begin)
+onMounted(() => {
+  // Soru ekranının kodu 3-2-1 sırasında önceden yüklenir; ilk sorunun süresinden yemesin.
+  void import('@/views/QuestionView.vue')
+  begin()
+})
 onBeforeUnmount(() => clearInterval(timer))
 </script>
 
