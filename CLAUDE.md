@@ -4,7 +4,9 @@ Rapid Quiz'in Vue 3 web istemcisi. Tüm oyun kuralları backend'dedir; istemci y
 
 - **Proje dokümanı:** `../RapidQuizBackend/docs/rapid-quiz-proje-dokumani.md`
 - **Backend reposu ve API sözleşmesi:** `../RapidQuizBackend` (`CLAUDE.md` › "API v1 sözleşmesi"; tam şema `/api/schema/`)
-- **Git:** `origin` → https://github.com/busracankit/RapidQuizFrontend.git, dal `main`. Faz 3'e kadar yalnızca yerel commit.
+- **Git:** `origin` → https://github.com/busracankit/RapidQuizFrontend.git, dal `main`.
+- **Deploy:** DigitalOcean'da backend ile *tek uygulama* (static site `web`); spec ve kurulum backend reposunda
+  (`.do/app.yaml`, `docs/deploy.md`). `main`'e push → otomatik deploy. CI: `.github/workflows/ci.yml`.
 
 ## Teknoloji
 
