@@ -5,9 +5,10 @@ Rapid Quiz'in Vue 3 web istemcisi. Tüm oyun kuralları backend'dedir; istemci y
 - **Proje dokümanı:** `../RapidQuizBackend/docs/rapid-quiz-proje-dokumani.md`
 - **Backend reposu ve API sözleşmesi:** `../RapidQuizBackend` (`CLAUDE.md` › "API v1 sözleşmesi"; tam şema `/api/schema/`)
 - **Git:** `origin` → https://github.com/busracankit/RapidQuizFrontend.git, dal `main`.
-- **Deploy:** DigitalOcean'da backend ile *tek uygulama* (static site `web`); spec ve kurulum backend reposunda
-  (`.do/app.yaml`, `docs/deploy.md`). `main`'e push → otomatik deploy. CI: `.github/workflows/ci.yml`.
-- **Durum (4 Ekim 2026):** henüz push/yayın yok; vf yayını DO panelinden manuel yapacak (sonraki oturum).
+- **Deploy:** DigitalOcean'da backend ile *tek uygulama* (static site `web`) olarak kurgulandı; spec ve kurulum backend
+  reposunda (`.do/app.yaml`, `docs/deploy.md`). CI: `.github/workflows/ci.yml`.
+- **Durum (7 Ekim 2026):** Ekim 2026'da DO'da backend ile aynı adreste denendi ve çalıştı, ardından kapatıldı: **şu an yayında değil.**
+  Yeniden kurulum: backend repo `docs/deploy.md` › Panelden kurulum. Android istemcisi: RapidQuizAndroid reposu.
 
 ## Teknoloji
 
@@ -78,3 +79,11 @@ tests/unit/         Vitest; tests/e2e/ Playwright + mock-api.ts (sahte backend)
 - [x] Yenileme/devam, animasyonlar, erişilebilirlik
 - [x] Vitest (23) ve Playwright (mobil + masaüstü) testleri
 - [x] Gerçek backend ile uçtan uca doğrulandı (4 Ekim 2026)
+
+## Yayın (Faz 3) — frontend tarafı notları
+
+- DO statik site: build `npm ci && npm run build`, output `dist`, route `/`, **Catchall document = `index.html`** (Vue Router history).
+- `VITE_API_BASE_URL` **tanımlanmaz**: istemci `/api/v1`'e gider; backend aynı adreste olduğu için CORS yok.
+  Mobil uygulama ayrı bir köken olacağı için API tabanı orada tam adres (`https://…/api/v1`) olarak verilmelidir.
+- `/api`, `/admin`, `/static` route'ları backend'de **Preserve Full Path** olmalı; Trim Prefix "Kategoriler yüklenemedi" hatasına yol açar.
+- Commit yazarı `Büşra Cankit <cankitbusra@gmail.com>`.
