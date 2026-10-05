@@ -7,6 +7,7 @@ Rapid Quiz'in Vue 3 web istemcisi. Tüm oyun kuralları backend'dedir; istemci y
 - **Git:** `origin` → https://github.com/busracankit/RapidQuizFrontend.git, dal `main`.
 - **Deploy:** DigitalOcean'da backend ile *tek uygulama* (static site `web`); spec ve kurulum backend reposunda
   (`.do/app.yaml`, `docs/deploy.md`). `main`'e push → otomatik deploy. CI: `.github/workflows/ci.yml`.
+- **Durum (4 Ekim 2026):** henüz push/yayın yok; vf yayını DO panelinden manuel yapacak (sonraki oturum).
 
 ## Teknoloji
 
