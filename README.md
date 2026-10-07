@@ -16,9 +16,11 @@ The web client for a fast-paced trivia game: **20 questions, 5 seconds each, no 
 
 ## Screenshots
 
-| Game | Result | Leaderboard |
-| --- | --- | --- |
-| ![A question with the 5-second countdown ring and A–D answers](docs/screenshots/game.png) | ![The result screen with score, correct answers, total time and the name form](docs/screenshots/result.png) | ![The leaderboard with category tabs and the podium](docs/screenshots/leaderboard.png) |
+![A question with the 5-second countdown ring and A–D answers](docs/screenshots/game.png)
+
+| Result | Leaderboard |
+| --- | --- |
+| ![The result screen with score, correct answers, total time and the name form](docs/screenshots/result.png) | ![The leaderboard with category tabs and the podium](docs/screenshots/leaderboard.png) |
 
 ## Features
 

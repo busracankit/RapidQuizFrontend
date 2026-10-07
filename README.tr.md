@@ -16,9 +16,11 @@ Hızlı bir bilgi yarışmasının web istemcisi: **20 soru, her soru için 5 sa
 
 ## Ekran görüntüleri
 
-| Oyun | Sonuç | Skor Tablosu |
-| --- | --- | --- |
-| ![5 saniyelik sayaç halkası ve A–D şıklarıyla bir soru](docs/screenshots/game.png) | ![Puan, doğru sayısı, toplam süre ve isim formuyla sonuç ekranı](docs/screenshots/result.png) | ![Kategori sekmeleri ve podyumla skor tablosu](docs/screenshots/leaderboard.png) |
+![5 saniyelik sayaç halkası ve A–D şıklarıyla bir soru](docs/screenshots/game.png)
+
+| Sonuç | Skor Tablosu |
+| --- | --- |
+| ![Puan, doğru sayısı, toplam süre ve isim formuyla sonuç ekranı](docs/screenshots/result.png) | ![Kategori sekmeleri ve podyumla skor tablosu](docs/screenshots/leaderboard.png) |
 
 ## Özellikler
 
